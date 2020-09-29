@@ -6,6 +6,7 @@ import { CreateTenantDto } from './dto/create/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update/update-tenant.dto';
 import { CustomTheme } from './models/custom-theme.entity';
 import { Tenant } from './models/tenant.entity';
+//import { FindOneParams } from './validators/params.validator';
 
 @Injectable()
 export class TenantsService {
@@ -56,11 +57,11 @@ export class TenantsService {
     /**
      * See https://typeorm.io/#/find-options
      */
-    /*
+    
     async findAll(): Promise<Tenant[]> {
         return await this.tenantRepository.find();
     }
-    */
+    
     
     //2. Note: You can indicate the fields to be returned
     /*
@@ -72,9 +73,11 @@ export class TenantsService {
     /**
      * find all and return only code and name along with customTheme relation
      */
+    /*
     async findAll(): Promise<Tenant[]> {
         return await this.tenantRepository.find({select: ["code", "name"], relations: ["customTheme"]});
     }
+    */
     
     //4. Etc. See https://typeorm.io/#/find-options
 
@@ -83,7 +86,7 @@ export class TenantsService {
      * @param id 
      * find by id
      */
-    async findOne(id: string): Promise<Tenant> {
+    async findOne(id: number): Promise<Tenant> {
         return await this.tenantRepository.findOne(id);
     }
     
@@ -92,7 +95,12 @@ export class TenantsService {
      * @param id 
      * Finds by a criterion (id in this case) and deletes. Returns void
      */
-    async delete(id: string): Promise<void> {
+    /* FindOneParams not working well. Using ParseIntPipe
+    async delete(id: FindOneParams): Promise<void> {
+        await this.tenantRepository.delete(id);
+    }
+    */
+    async delete(id: number): Promise<void> {
         await this.tenantRepository.delete(id);
     }
 
@@ -112,7 +120,13 @@ export class TenantsService {
      * @param tenant 
      * Find by the id and replace the fields sent in Dto
      */
-    async update1(id: string, tenant: UpdateTenantDto): Promise<UpdateResult> {
+    /*
+    /* FindOneParams not working well. Using ParseIntPipe
+    async update1(id: FindOneParams, tenant: UpdateTenantDto): Promise<UpdateResult> {
+        return await this.tenantRepository.update(id, { ...tenant })
+    }
+    */
+    async update1(id: number, tenant: UpdateTenantDto): Promise<UpdateResult> {
         return await this.tenantRepository.update(id, { ...tenant })
     }
 
